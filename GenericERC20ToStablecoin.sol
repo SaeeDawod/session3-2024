@@ -12,7 +12,6 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 /// @dev Extends ERC20 with burnable, pausable, and permit functionalities.
 /// @custom:security-contact support@settlemint.com
 contract GenericERC20 is ERC20, ERC20Burnable, ERC20Pausable, Ownable, ERC20Permit, AccessControl {
-    
     uint256 public collateralSupply;
     mapping(address => bool) public blocklisted;
 
@@ -79,7 +78,7 @@ contract GenericERC20 is ERC20, ERC20Burnable, ERC20Pausable, Ownable, ERC20Perm
     /// @param amount The number of tokens to be minted.
     /// @notice This function can only be called by the contract owner.
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
-        require(collateralSupply >= amount, "Insufficient collateral");
+        require(totalSupply() + amount <= collateralSupply, "Insufficient collateral");
         require(!isBlocklisted(to), "GenericERC20: Recipient address is blocklisted");
         _mint(to, amount);
     }

@@ -1,0 +1,328 @@
+[
+    {
+        "id": "29d033f92e97afbf",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ab2e9267aff2e3e0",
+        "type": "function",
+        "z": "29d033f92e97afbf",
+        "name": "Connect to blockchain",
+        "func": "const abi = [\n    // Constructor\n    \"constructor(string name, string symbol)\",\n\n    // Role Access\n    \"function BURNER_ROLE() view returns (bytes32)\",\n    \"function DEFAULT_ADMIN_ROLE() view returns (bytes32)\",\n    \"function MINTER_ROLE() view returns (bytes32)\",\n    \"function PAUSER_ROLE() view returns (bytes32)\",\n\n    // Blocklist Management\n    \"function addBlocklist(address account)\",\n    \"function removeBlocklist(address account)\",\n    \"function isBlocklisted(address account) view returns (bool)\",\n\n    // ERC-20 Standard Functions\n    \"function allowance(address owner, address spender) view returns (uint256)\",\n    \"function approve(address spender, uint256 value) returns (bool)\",\n    \"function balanceOf(address account) view returns (uint256)\",\n    \"function burn(uint256 value)\",\n    \"function burnFrom(address account, uint256 value)\",\n    \"function decimals() view returns (uint8)\",\n    \"function name() view returns (string)\",\n    \"function symbol() view returns (string)\",\n    \"function totalSupply() view returns (uint256)\",\n    \"function transfer(address to, uint256 amount) returns (bool)\",\n    \"function transferFrom(address from, address to, uint256 amount) returns (bool)\",\n\n    // Owner and Pauser Management\n    \"function pause()\",\n    \"function unpause()\",\n    \"function paused() view returns (bool)\",\n    \"function owner() view returns (address)\",\n    \"function transferOwnership(address newOwner)\",\n    \"function renounceOwnership()\",\n\n    // Role Management\n    \"function grantRole(bytes32 role, address account)\",\n    \"function revokeRole(bytes32 role, address account)\",\n    \"function renounceRole(bytes32 role, address callerConfirmation)\",\n    \"function getRoleAdmin(bytes32 role) view returns (bytes32)\",\n    \"function hasRole(bytes32 role, address account) view returns (bool)\",\n\n    // Collateral Management\n    \"function collateralSupply() view returns (uint256)\",\n    \"function depositCollateral(uint256 amount, address mintTo)\",\n    \"function withdrawCollateral(uint256 amount, address burnFrom)\",\n\n    // EIP-712 and Permit\n    \"function DOMAIN_SEPARATOR() view returns (bytes32)\",\n    \"function nonces(address owner) view returns (uint256)\",\n    \"function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)\",\n\n    // Events\n    \"event Approval(address indexed owner, address indexed spender, uint256 value)\",\n    \"event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)\",\n    \"event Paused(address account)\",\n    \"event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, bytes32 indexed newAdminRole)\",\n    \"event RoleGranted(bytes32 indexed role, address indexed account, address indexed sender)\",\n    \"event RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender)\",\n    \"event Transfer(address indexed from, address indexed to, uint256 value)\",\n    \"event Unpaused(address account)\",\n\n    // Errors (Added a few examples for context)\n    \"error ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed)\",\n    \"error ERC20InvalidReceiver(address receiver)\"\n];\n\n\nconst privateKey = \"0x3a2ad37dd4aed740621d62d315ec2ea032e73fad59a82af6deb85d0d65333d38\"\n\n//connecting to Blockchain\nconst provider = new ethers.providers.JsonRpcProvider(\"https://node-test-56cf.gke-europe.settlemint.com/sm_sat_45e03d9ae3539556\");\n//connecting to our Wallet (Private key)\nconst signer = new ethers.Wallet(privateKey, provider);\nglobal.set('signer', signer)\n\n//connecting to the contract \nconst erc20Contract = new ethers.Contract('0x12A67F27D3A15Db058464Bc8779085839a1CbF34', abi, signer);\n\nglobal.set('erc20Contract', erc20Contract)\nglobal.set('privateKey', privateKey)\n\n//interacting with the Blockchain\nmsg.block = await provider.getBlock()\n//interacting with the contract \n\nmsg.erc20Contract = await erc20Contract.address\n\n\nreturn msg ",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "ethers",
+                "module": "ethers"
+            }
+        ],
+        "x": 380,
+        "y": 80,
+        "wires": [
+            [
+                "6a33daf1fc575b0e",
+                "267f4b0d98c3250c"
+            ]
+        ]
+    },
+    {
+        "id": "e10b870146b6fc7c",
+        "type": "inject",
+        "z": "29d033f92e97afbf",
+        "name": "Set global vars",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 80,
+        "wires": [
+            [
+                "ab2e9267aff2e3e0"
+            ]
+        ]
+    },
+    {
+        "id": "6a33daf1fc575b0e",
+        "type": "debug",
+        "z": "29d033f92e97afbf",
+        "name": "block",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "block",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "267f4b0d98c3250c",
+        "type": "debug",
+        "z": "29d033f92e97afbf",
+        "name": "contract address ",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "erc20Contract",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "923ea30aee23d14c",
+        "type": "function",
+        "z": "29d033f92e97afbf",
+        "name": "Deposit collateral ",
+        "func": "const erc20Contract = global.get(\"erc20Contract\")\n\nconst txOptions = {\ngasLimit: 1000000, // Example gas limit; adjust based on the actual usage of the mint function\ngasPrice: 0, // Set gas price to 0 for networks that support this\n};\n\nasync function checkContractState() {\n    const txResponse = await erc20Contract.depositCollateral(msg.amount, msg.toAddress,txOptions);\n    const txReceipt = await txResponse.wait();\n    console.log(\"Transaction status:\", txReceipt.status)\n\n    const currentCollateral = await erc20Contract.collateralSupply();\n    console.log(`Current collateral supply:`, currentCollateral.toString());\n    return currentCollateral\n}\n\n\n// Example usage\nmsg.payload = await checkContractState();\n\n \nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "ethers",
+                "module": "ethers"
+            }
+        ],
+        "x": 350,
+        "y": 440,
+        "wires": [
+            [
+                "893638feba26b5e7"
+            ]
+        ]
+    },
+    {
+        "id": "85d7ac6209865ec8",
+        "type": "inject",
+        "z": "29d033f92e97afbf",
+        "name": "Trigger txn",
+        "props": [
+            {
+                "p": "toAddress",
+                "v": "0x9aC05822830F80Beb5BF486366a9176127E8E50c",
+                "vt": "str"
+            },
+            {
+                "p": "amount",
+                "v": "10",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 100,
+        "y": 440,
+        "wires": [
+            [
+                "923ea30aee23d14c"
+            ]
+        ]
+    },
+    {
+        "id": "893638feba26b5e7",
+        "type": "debug",
+        "z": "29d033f92e97afbf",
+        "name": "total collateral ",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "25ba1385d993ab0e",
+        "type": "function",
+        "z": "29d033f92e97afbf",
+        "name": "withdraw Collateral",
+        "func": "const erc20Contract = global.get(\"erc20Contract\");\n\nconst txOptions = {\n    gasLimit: 1000000, // Example gas limit; adjust based on the actual usage of the mint function\n    gasPrice: 0, // Set gas price to 0 for networks that support this\n};\n\nasync function checkContractState() {\n    const txResponse = await erc20Contract.withdrawCollateral(msg.amount, msg.toAddress, txOptions);\n    const txReceipt = await txResponse.wait();\n    console.log(\"Transaction status:\", txReceipt.status)\n\n    const currentCollateral = await erc20Contract.collateralSupply();\n    console.log(`Current collateral supply:`, currentCollateral.toString());\n    return currentCollateral\n}\n\n\n// Example usage\nmsg.payload = await checkContractState();\n\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "ethers",
+                "module": "ethers"
+            }
+        ],
+        "x": 350,
+        "y": 540,
+        "wires": [
+            [
+                "df5a19b1622d8286"
+            ]
+        ]
+    },
+    {
+        "id": "922724962a77d794",
+        "type": "inject",
+        "z": "29d033f92e97afbf",
+        "name": "Trigger txn",
+        "props": [
+            {
+                "p": "toAddress",
+                "v": "0x45a272C8DCCD8e9F85e5e2e9d10E493e3d99afcc",
+                "vt": "str"
+            },
+            {
+                "p": "amount",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 100,
+        "y": 540,
+        "wires": [
+            [
+                "25ba1385d993ab0e"
+            ]
+        ]
+    },
+    {
+        "id": "df5a19b1622d8286",
+        "type": "debug",
+        "z": "29d033f92e97afbf",
+        "name": "txn hash",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "edaab1ed76e10fd8",
+        "type": "template",
+        "z": "29d033f92e97afbf",
+        "name": "ContractEditor",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <title>Smart Contract Interface</title>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/ethers/6.6.0/ethers.umd.min.js\"></script>\n    <style>\n        body {\n            background-color: #f7f7f7;\n            font-family: Arial, sans-serif;\n            margin: 20px;\n            padding: 0;\n            overflow-x: hidden;\n        }\n\n        h1 {\n            text-align: center;\n            margin-top: 20px;\n        }\n\n        .contract-section {\n            margin-top: 30px;\n        }\n\n        .contract-title {\n            color: #333;\n            font-size: 24px;\n            margin-bottom: 15px;\n            padding: 0;\n        }\n\n        .contract-functions {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));\n            gap: 20px;\n            margin-top: 10px;\n        }\n\n        .function-card {\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);\n            padding: 20px;\n        }\n\n        .function-title {\n            font-size: 20px;\n            font-weight: bold;\n            margin: 0 0 10px;\n            padding: 0;\n        }\n\n        .function-description {\n            color: #555;\n            margin-bottom: 10px;\n        }\n\n        .function-input {\n            display: flex;\n            align-items: center;\n            margin-bottom: 10px;\n        }\n\n        .input-label {\n            width: 120px;\n            font-weight: bold;\n            margin-right: 10px;\n        }\n\n        .input-field {\n            flex: 1;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box;\n            font-size: 14px;\n            padding: 8px;\n        }\n\n        .function-result {\n            margin-top: 10px;\n            font-size: 14px;\n            white-space: pre-wrap;\n            overflow-y: auto;\n        }\n\n        .function-result-label {\n            margin-bottom: 5px;\n        }\n\n        .function-button {\n            background-color: #007bff;\n            border: none;\n            border-radius: 4px;\n            color: #fff;\n            cursor: pointer;\n            font-size: 14px;\n            padding: 10px 20px;\n            margin-top: 10px;\n        }\n\n        .function-button:hover {\n            background-color: #0056b3;\n        }\n\n        .logs-div {\n            background-color: #222;\n            color: #fff;\n            margin: 20px auto;\n            padding: 20px;\n            border-radius: 8px;\n            position: sticky;\n            bottom: 0px;\n        }\n\n        .logs-div p {\n            margin: 5px;\n            padding: 5px;\n            line-height: 1.5;\n            overflow-x: auto;\n        }\n\n        .error-message {\n            background-color: #f44336;\n            border-radius: 4px;\n            color: white;\n            margin-top: 10px;\n            padding: 10px;\n            overflow-x: auto;\n        }\n\n        .error-message button {\n            background-color: transparent;\n            border: none;\n            color: white;\n            cursor: pointer;\n            font-size: 16px;\n            line-height: 1;\n            padding: 0;\n            position: absolute;\n            top: 5px;\n            right: 5px;\n        }\n    </style>\n</head>\n\n<body>\n    <h1>Contract Editor</h1>\n    <h2>Contract : {{payload.contractAddress}}</h2>\n    <div class=\"contract-section\">\n        <h2 class=\"contract-title\">Read-only Functions</h2>\n        <div class=\"contract-functions\" id=\"readFunctions\"></div>\n    </div>\n\n    <div class=\"contract-section\">\n        <h2 class=\"contract-title\">Write Functions</h2>\n        <div class=\"contract-functions\" id=\"writeFunctions\"></div>\n    </div>\n\n    <div class=\"logs-div\" id=\"logsDiv\"></div>\n\n    <script>\n        window.onload = async function () {\n        \n        const contractAddress = '{{{payload.contractAddress}}}'; // Contract address placeholder\n        const privateKey = '{{{payload.privateKey}}}'; // Private key placeholder\n        const abi = JSON.parse('{{{payload.abi}}}'); // ABI placeholder\n\n        const provider = new ethers.JsonRpcProvider('{{{payload.jsonRpc}}}');\n        const wallet = new ethers.Wallet(privateKey, provider);\n        const contract = new ethers.Contract(contractAddress, abi, wallet);\n\n    const readFunctionsDiv = document.getElementById('readFunctions');\n    const writeFunctionsDiv = document.getElementById('writeFunctions');\n    const logsDiv = document.getElementById('logsDiv');\n\n    function formatResult(result) {\n    if (typeof result === 'bigint') {\n        return result.toString();\n    }\n    if (Array.isArray(result)) {\n        return result.map(formatResult);\n    }\n    if (typeof result === 'object') {\n        const formattedResult = {};\n        for (const key in result) {\n            formattedResult[key] = formatResult(result[key]);\n        }\n        return formattedResult;\n    }\n    return result;\n}\n\n    abi.forEach((func) => {\n        if (func.type === \"function\" || func.type === \"variable\") {\n            const functionDiv = document.createElement('div');\n            functionDiv.className = 'function-card';\n\n            const functionName = document.createElement('h3');\n            functionName.className = 'function-title';\n            functionName.textContent = func.name;\n            functionDiv.appendChild(functionName);\n\n            const functionDescription = document.createElement('p');\n            functionDescription.className = 'function-description';\n            functionDescription.textContent = func.stateMutability === 'view' ? 'Read-only function' : 'Write function';\n            functionDiv.appendChild(functionDescription);\n\n            const inputFields = [];\n            if (func.inputs && func.inputs.length > 0) {\n                func.inputs.forEach((input) => {\n                    const inputContainer = document.createElement('div');\n                    inputContainer.className = 'function-input';\n\n                    const inputLabel = document.createElement('label');\n                    inputLabel.className = 'input-label';\n                    inputLabel.textContent = input.name + ' (' + input.type + '): ';\n                    inputContainer.appendChild(inputLabel);\n\n                    const inputField = document.createElement('input');\n                    inputField.className = 'input-field';\n                    inputField.setAttribute('name', func.name + '_' + input.name);\n                    inputContainer.appendChild(inputField);\n\n                    inputFields.push(inputField);\n\n                    functionDiv.appendChild(inputContainer);\n                });\n            }\n\n            const resultMessage = document.createElement('div');\n            resultMessage.className = 'function-result';\n            resultMessage.id = func.name + '_result';\n            functionDiv.appendChild(resultMessage);\n\n            const callButton = document.createElement('button');\n            callButton.className = 'function-button';\n            callButton.textContent = 'Call';\n            callButton.onclick = async function () {\n                const args = inputFields.map(inputField => inputField.value);\n                try {\n                    let result;\n                    if (func.stateMutability === 'view') {\n                        resultMessage.textContent = 'Loading...';\n\nconst txOptions = {\ngasLimit: 1000000, // Example gas limit; adjust based on the actual usage of the mint function\ngasPrice: 0, // Set gas price to 0 for networks that support this\n};\n                        result = await contract[func.name](...args,txOptions)\n                        resultMessage.textContent = 'Result:\\n' + formatResult(result);\n                    } else {\n\nconst txOptions = {\ngasLimit: 1000000, // Example gas limit; adjust based on the actual usage of the mint function\ngasPrice: 0, // Set gas price to 0 for networks that support this\n};\n                        resultMessage.textContent = 'Loading...';\n                        const tx = await contract[func.name](...args,txOptions);\n                        const logMessage = document.createElement('p');\n                        logMessage.textContent = 'Transaction hash: ' + tx.hash + ', Args: ' + JSON.stringify(args) + ', Function: ' + func.name;\n                        logsDiv.appendChild(logMessage);\n                        resultMessage.textContent = 'Transaction sent. Waiting for confirmation...';\n                        await tx.wait();\n                        resultMessage.textContent = 'Transaction confirmed for ' + func.name;\n\n                        // Display complete transaction object in logs\n                        const txObjectMessage = document.createElement('p');\n                        txObjectMessage.textContent = 'Transaction object: ' + JSON.stringify(tx);\n                        logsDiv.appendChild(txObjectMessage);\n                    }\n                } catch (err) {\n                    const errorMessage = document.createElement('div');\n                    errorMessage.className = 'error-message';\n                    errorMessage.textContent = 'Error for ' + func.name + ': ' + err.message;\n                    const dismissButton = document.createElement('button');\n                    dismissButton.textContent = 'X';\n                    dismissButton.onclick = function () {\n                        functionDiv.removeChild(errorMessage);\n                    };\n                    errorMessage.appendChild(dismissButton);\n                    functionDiv.appendChild(errorMessage);\n                }\n            };\n\n            functionDiv.appendChild(callButton);\n\n            if (func.stateMutability === 'view') {\n                readFunctionsDiv.appendChild(functionDiv);\n            } else {\n                writeFunctionsDiv.appendChild(functionDiv);\n            }\n        }\n    });\n};\n    </script>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 640,
+        "y": 280,
+        "wires": [
+            [
+                "a007b5a3ca3ab119"
+            ]
+        ]
+    },
+    {
+        "id": "a007b5a3ca3ab119",
+        "type": "http response",
+        "z": "29d033f92e97afbf",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 810,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d1c4b995582d3b87",
+        "type": "http in",
+        "z": "29d033f92e97afbf",
+        "name": "",
+        "url": "/contractEditor",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "ce0dfd4f90ce3d59"
+            ]
+        ]
+    },
+    {
+        "id": "ce0dfd4f90ce3d59",
+        "type": "function",
+        "z": "29d033f92e97afbf",
+        "name": "Set Information",
+        "func": "\nconst erc20Contract = global.get(\"erc20Contract\")\nconst privateKey = global.get(\"privateKey\")\n\nconst contractAddress = erc20Contract.address;\nconst jsonRpc = erc20Contract.provider.connection.url\nconst abi = [\n  // Constructor\n  { \"type\": \"constructor\", \"inputs\": [{ \"name\": \"name\", \"type\": \"string\", \"internalType\": \"string\" }, { \"name\": \"symbol\", \"type\": \"string\", \"internalType\": \"string\" }], \"stateMutability\": \"nonpayable\" },\n\n  // Role Access\n  { \"type\": \"function\", \"name\": \"BURNER_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"DEFAULT_ADMIN_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"MINTER_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"PAUSER_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n\n  // Blocklist Management\n  { \"type\": \"function\", \"name\": \"addBlocklist\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"removeBlocklist\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"isBlocklisted\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"view\" },\n\n  // ERC-20 Standard Functions\n  //{ \"type\": \"function\", \"name\": \"allowance\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"spender\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  // { \"type\": \"function\", \"name\": \"approve\", \"inputs\": [{ \"name\": \"spender\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"balanceOf\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"burn\", \"inputs\": [{ \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"burnFrom\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"decimals\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"uint8\", \"internalType\": \"uint8\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"name\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"string\", \"internalType\": \"string\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"symbol\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"string\", \"internalType\": \"string\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"totalSupply\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"transfer\", \"inputs\": [{ \"name\": \"to\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"transferFrom\", \"inputs\": [{ \"name\": \"from\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"to\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"nonpayable\" },\n\n  // Owner and Pauser Management\n  { \"type\": \"function\", \"name\": \"pause\", \"inputs\": [], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"unpause\", \"inputs\": [], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"paused\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"owner\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"address\", \"internalType\": \"address\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"transferOwnership\", \"inputs\": [{ \"name\": \"newOwner\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n // { \"type\": \"function\", \"name\": \"renounceOwnership\", \"inputs\": [], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n\n  // Role Management\n  { \"type\": \"function\", \"name\": \"grantRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"revokeRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"renounceRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"callerConfirmation\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"getRoleAdmin\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"hasRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"view\" },\n\n  // Collateral Management\n  { \"type\": \"function\", \"name\": \"collateralSupply\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"depositCollateral\", \"inputs\": [{ \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"mintTo\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"withdrawCollateral\", \"inputs\": [{ \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"burnFrom\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n\n  // EIP-712 and Permit\n  // { \"type\": \"function\", \"name\": \"DOMAIN_SEPARATOR\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  // { \"type\": \"function\", \"name\": \"nonces\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  // { \"type\": \"function\", \"name\": \"permit\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"spender\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"deadline\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"v\", \"type\": \"uint8\", \"internalType\": \"uint8\" }, { \"name\": \"r\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"s\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n\n  // Events\n  // { \"type\": \"event\", \"name\": \"Approval\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"spender\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"indexed\": false, \"internalType\": \"uint256\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"OwnershipTransferred\", \"inputs\": [{ \"name\": \"previousOwner\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"newOwner\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"Paused\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"indexed\": false, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"RoleAdminChanged\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"previousAdminRole\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"newAdminRole\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"RoleGranted\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"sender\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"RoleRevoked\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"sender\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"Transfer\", \"inputs\": [{ \"name\": \"from\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"to\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"indexed\": false, \"internalType\": \"uint256\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"Unpaused\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"indexed\": false, \"internalType\": \"address\" }], \"anonymous\": false },\n\n  // Errors (Added a few examples for context)\n  // { \"type\": \"error\", \"name\": \"ERC20InsufficientBalance\", \"inputs\": [{ \"name\": \"sender\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"balance\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"needed\", \"type\": \"uint256\", \"internalType\": \"uint256\" }] },\n  // { \"type\": \"error\", \"name\": \"ERC20InvalidReceiver\", \"inputs\": [{ \"name\": \"receiver\", \"type\": \"address\", \"internalType\": \"address\" }] }\n]\n\n\n\nconst templatePayload = {\n  contractAddress: contractAddress,\n  privateKey: privateKey,\n  abi: JSON.stringify(abi),\n  jsonRpc: jsonRpc\n};\n\nmsg.payload = templatePayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "edaab1ed76e10fd8",
+                "465444f5258e09aa"
+            ]
+        ]
+    },
+    {
+        "id": "465444f5258e09aa",
+        "type": "debug",
+        "z": "29d033f92e97afbf",
+        "name": "contract details ",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 360,
+        "wires": []
+    }
+]

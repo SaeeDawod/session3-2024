@@ -1,6 +1,6 @@
 [
     {
-        "id": "29d033f92e97afbf",
+        "id": "997998710caa1c82",
         "type": "tab",
         "label": "Flow 2",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "ab2e9267aff2e3e0",
+        "id": "986925e07d77f780",
         "type": "function",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "Connect to blockchain",
         "func": "const abi = [\n    // Constructor\n    \"constructor(string name, string symbol)\",\n\n    // Role Access\n    \"function BURNER_ROLE() view returns (bytes32)\",\n    \"function DEFAULT_ADMIN_ROLE() view returns (bytes32)\",\n    \"function MINTER_ROLE() view returns (bytes32)\",\n    \"function PAUSER_ROLE() view returns (bytes32)\",\n\n    // Blocklist Management\n    \"function addBlocklist(address account)\",\n    \"function removeBlocklist(address account)\",\n    \"function isBlocklisted(address account) view returns (bool)\",\n\n    // ERC-20 Standard Functions\n    \"function allowance(address owner, address spender) view returns (uint256)\",\n    \"function approve(address spender, uint256 value) returns (bool)\",\n    \"function balanceOf(address account) view returns (uint256)\",\n    \"function burn(uint256 value)\",\n    \"function burnFrom(address account, uint256 value)\",\n    \"function decimals() view returns (uint8)\",\n    \"function name() view returns (string)\",\n    \"function symbol() view returns (string)\",\n    \"function totalSupply() view returns (uint256)\",\n    \"function transfer(address to, uint256 amount) returns (bool)\",\n    \"function transferFrom(address from, address to, uint256 amount) returns (bool)\",\n\n    // Owner and Pauser Management\n    \"function pause()\",\n    \"function unpause()\",\n    \"function paused() view returns (bool)\",\n    \"function owner() view returns (address)\",\n    \"function transferOwnership(address newOwner)\",\n    \"function renounceOwnership()\",\n\n    // Role Management\n    \"function grantRole(bytes32 role, address account)\",\n    \"function revokeRole(bytes32 role, address account)\",\n    \"function renounceRole(bytes32 role, address callerConfirmation)\",\n    \"function getRoleAdmin(bytes32 role) view returns (bytes32)\",\n    \"function hasRole(bytes32 role, address account) view returns (bool)\",\n\n    // Collateral Management\n    \"function collateralSupply() view returns (uint256)\",\n    \"function depositCollateral(uint256 amount, address mintTo)\",\n    \"function withdrawCollateral(uint256 amount, address burnFrom)\",\n\n    // EIP-712 and Permit\n    \"function DOMAIN_SEPARATOR() view returns (bytes32)\",\n    \"function nonces(address owner) view returns (uint256)\",\n    \"function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)\",\n\n    // Events\n    \"event Approval(address indexed owner, address indexed spender, uint256 value)\",\n    \"event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)\",\n    \"event Paused(address account)\",\n    \"event RoleAdminChanged(bytes32 indexed role, bytes32 indexed previousAdminRole, bytes32 indexed newAdminRole)\",\n    \"event RoleGranted(bytes32 indexed role, address indexed account, address indexed sender)\",\n    \"event RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender)\",\n    \"event Transfer(address indexed from, address indexed to, uint256 value)\",\n    \"event Unpaused(address account)\",\n\n    // Errors (Added a few examples for context)\n    \"error ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed)\",\n    \"error ERC20InvalidReceiver(address receiver)\"\n];\n\n\nconst privateKey = \"0x3a2ad37dd4aed740621d62d315ec2ea032e73fad59a82af6deb85d0d65333d38\"\n\n//connecting to Blockchain\nconst provider = new ethers.providers.JsonRpcProvider(\"https://node-test-56cf.gke-europe.settlemint.com/sm_sat_45e03d9ae3539556\");\n//connecting to our Wallet (Private key)\nconst signer = new ethers.Wallet(privateKey, provider);\nglobal.set('signer', signer)\n\n//connecting to the contract \nconst erc20Contract = new ethers.Contract('0x12A67F27D3A15Db058464Bc8779085839a1CbF34', abi, signer);\n\nglobal.set('erc20Contract', erc20Contract)\nglobal.set('privateKey', privateKey)\n\n//interacting with the Blockchain\nmsg.block = await provider.getBlock()\n//interacting with the contract \n\nmsg.erc20Contract = await erc20Contract.address\n\n\nreturn msg ",
         "outputs": 1,
@@ -28,15 +28,15 @@
         "y": 80,
         "wires": [
             [
-                "6a33daf1fc575b0e",
-                "267f4b0d98c3250c"
+                "e87dd9ab1fe6b961",
+                "5413229fb2b3b164"
             ]
         ]
     },
     {
-        "id": "e10b870146b6fc7c",
+        "id": "7e5dbf457e926679",
         "type": "inject",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "Set global vars",
         "props": [
             {
@@ -58,14 +58,14 @@
         "y": 80,
         "wires": [
             [
-                "ab2e9267aff2e3e0"
+                "986925e07d77f780"
             ]
         ]
     },
     {
-        "id": "6a33daf1fc575b0e",
+        "id": "e87dd9ab1fe6b961",
         "type": "debug",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "block",
         "active": true,
         "tosidebar": true,
@@ -80,9 +80,9 @@
         "wires": []
     },
     {
-        "id": "267f4b0d98c3250c",
+        "id": "5413229fb2b3b164",
         "type": "debug",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "contract address ",
         "active": true,
         "tosidebar": true,
@@ -97,9 +97,9 @@
         "wires": []
     },
     {
-        "id": "923ea30aee23d14c",
+        "id": "6991838ffc5ce9ac",
         "type": "function",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "Deposit collateral ",
         "func": "const erc20Contract = global.get(\"erc20Contract\")\n\nconst txOptions = {\ngasLimit: 1000000, // Example gas limit; adjust based on the actual usage of the mint function\ngasPrice: 0, // Set gas price to 0 for networks that support this\n};\n\nasync function checkContractState() {\n    const txResponse = await erc20Contract.depositCollateral(msg.amount, msg.toAddress,txOptions);\n    const txReceipt = await txResponse.wait();\n    console.log(\"Transaction status:\", txReceipt.status)\n\n    const currentCollateral = await erc20Contract.collateralSupply();\n    console.log(`Current collateral supply:`, currentCollateral.toString());\n    return currentCollateral\n}\n\n\n// Example usage\nmsg.payload = await checkContractState();\n\n \nreturn msg;\n\n",
         "outputs": 1,
@@ -117,14 +117,14 @@
         "y": 440,
         "wires": [
             [
-                "893638feba26b5e7"
+                "9b02610ae07075a7"
             ]
         ]
     },
     {
-        "id": "85d7ac6209865ec8",
+        "id": "d655d031dea6955a",
         "type": "inject",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "Trigger txn",
         "props": [
             {
@@ -147,14 +147,14 @@
         "y": 440,
         "wires": [
             [
-                "923ea30aee23d14c"
+                "6991838ffc5ce9ac"
             ]
         ]
     },
     {
-        "id": "893638feba26b5e7",
+        "id": "9b02610ae07075a7",
         "type": "debug",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "total collateral ",
         "active": true,
         "tosidebar": true,
@@ -169,9 +169,9 @@
         "wires": []
     },
     {
-        "id": "25ba1385d993ab0e",
+        "id": "926fba1c710c52d0",
         "type": "function",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "withdraw Collateral",
         "func": "const erc20Contract = global.get(\"erc20Contract\");\n\nconst txOptions = {\n    gasLimit: 1000000, // Example gas limit; adjust based on the actual usage of the mint function\n    gasPrice: 0, // Set gas price to 0 for networks that support this\n};\n\nasync function checkContractState() {\n    const txResponse = await erc20Contract.withdrawCollateral(msg.amount, msg.toAddress, txOptions);\n    const txReceipt = await txResponse.wait();\n    console.log(\"Transaction status:\", txReceipt.status)\n\n    const currentCollateral = await erc20Contract.collateralSupply();\n    console.log(`Current collateral supply:`, currentCollateral.toString());\n    return currentCollateral\n}\n\n\n// Example usage\nmsg.payload = await checkContractState();\n\n\nreturn msg;\n\n",
         "outputs": 1,
@@ -189,14 +189,14 @@
         "y": 540,
         "wires": [
             [
-                "df5a19b1622d8286"
+                "83ddc38a5a64f4dc"
             ]
         ]
     },
     {
-        "id": "922724962a77d794",
+        "id": "5a4ae01aca35a2a7",
         "type": "inject",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "Trigger txn",
         "props": [
             {
@@ -219,14 +219,14 @@
         "y": 540,
         "wires": [
             [
-                "25ba1385d993ab0e"
+                "926fba1c710c52d0"
             ]
         ]
     },
     {
-        "id": "df5a19b1622d8286",
+        "id": "83ddc38a5a64f4dc",
         "type": "debug",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "txn hash",
         "active": true,
         "tosidebar": true,
@@ -241,9 +241,9 @@
         "wires": []
     },
     {
-        "id": "edaab1ed76e10fd8",
+        "id": "8cfe82f9a0ccf5c7",
         "type": "template",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "ContractEditor",
         "field": "payload",
         "fieldType": "msg",
@@ -255,14 +255,14 @@
         "y": 280,
         "wires": [
             [
-                "a007b5a3ca3ab119"
+                "9b41f8f225b4d70d"
             ]
         ]
     },
     {
-        "id": "a007b5a3ca3ab119",
+        "id": "9b41f8f225b4d70d",
         "type": "http response",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "",
         "statusCode": "",
         "headers": {},
@@ -271,9 +271,9 @@
         "wires": []
     },
     {
-        "id": "d1c4b995582d3b87",
+        "id": "bb347ea713748c57",
         "type": "http in",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "",
         "url": "/contractEditor",
         "method": "get",
@@ -283,14 +283,14 @@
         "y": 280,
         "wires": [
             [
-                "ce0dfd4f90ce3d59"
+                "a7457d9363170917"
             ]
         ]
     },
     {
-        "id": "ce0dfd4f90ce3d59",
+        "id": "a7457d9363170917",
         "type": "function",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "Set Information",
         "func": "\nconst erc20Contract = global.get(\"erc20Contract\")\nconst privateKey = global.get(\"privateKey\")\n\nconst contractAddress = erc20Contract.address;\nconst jsonRpc = erc20Contract.provider.connection.url\nconst abi = [\n  // Constructor\n  { \"type\": \"constructor\", \"inputs\": [{ \"name\": \"name\", \"type\": \"string\", \"internalType\": \"string\" }, { \"name\": \"symbol\", \"type\": \"string\", \"internalType\": \"string\" }], \"stateMutability\": \"nonpayable\" },\n\n  // Role Access\n  { \"type\": \"function\", \"name\": \"BURNER_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"DEFAULT_ADMIN_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"MINTER_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"PAUSER_ROLE\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n\n  // Blocklist Management\n  { \"type\": \"function\", \"name\": \"addBlocklist\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"removeBlocklist\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"isBlocklisted\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"view\" },\n\n  // ERC-20 Standard Functions\n  //{ \"type\": \"function\", \"name\": \"allowance\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"spender\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  // { \"type\": \"function\", \"name\": \"approve\", \"inputs\": [{ \"name\": \"spender\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"balanceOf\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"burn\", \"inputs\": [{ \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"burnFrom\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"decimals\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"uint8\", \"internalType\": \"uint8\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"name\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"string\", \"internalType\": \"string\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"symbol\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"string\", \"internalType\": \"string\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"totalSupply\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"transfer\", \"inputs\": [{ \"name\": \"to\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"transferFrom\", \"inputs\": [{ \"name\": \"from\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"to\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"nonpayable\" },\n\n  // Owner and Pauser Management\n  { \"type\": \"function\", \"name\": \"pause\", \"inputs\": [], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"unpause\", \"inputs\": [], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"paused\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"owner\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"address\", \"internalType\": \"address\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"transferOwnership\", \"inputs\": [{ \"name\": \"newOwner\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n // { \"type\": \"function\", \"name\": \"renounceOwnership\", \"inputs\": [], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n\n  // Role Management\n  { \"type\": \"function\", \"name\": \"grantRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"revokeRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"renounceRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"callerConfirmation\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"getRoleAdmin\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"hasRole\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"bool\", \"internalType\": \"bool\" }], \"stateMutability\": \"view\" },\n\n  // Collateral Management\n  { \"type\": \"function\", \"name\": \"collateralSupply\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  { \"type\": \"function\", \"name\": \"depositCollateral\", \"inputs\": [{ \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"mintTo\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n  { \"type\": \"function\", \"name\": \"withdrawCollateral\", \"inputs\": [{ \"name\": \"amount\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"burnFrom\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n\n  // EIP-712 and Permit\n  // { \"type\": \"function\", \"name\": \"DOMAIN_SEPARATOR\", \"inputs\": [], \"outputs\": [{ \"name\": \"\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"stateMutability\": \"view\" },\n  // { \"type\": \"function\", \"name\": \"nonces\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"internalType\": \"address\" }], \"outputs\": [{ \"name\": \"\", \"type\": \"uint256\", \"internalType\": \"uint256\" }], \"stateMutability\": \"view\" },\n  // { \"type\": \"function\", \"name\": \"permit\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"spender\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"deadline\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"v\", \"type\": \"uint8\", \"internalType\": \"uint8\" }, { \"name\": \"r\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }, { \"name\": \"s\", \"type\": \"bytes32\", \"internalType\": \"bytes32\" }], \"outputs\": [], \"stateMutability\": \"nonpayable\" },\n\n  // Events\n  // { \"type\": \"event\", \"name\": \"Approval\", \"inputs\": [{ \"name\": \"owner\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"spender\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"indexed\": false, \"internalType\": \"uint256\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"OwnershipTransferred\", \"inputs\": [{ \"name\": \"previousOwner\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"newOwner\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"Paused\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"indexed\": false, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"RoleAdminChanged\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"previousAdminRole\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"newAdminRole\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"RoleGranted\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"sender\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"RoleRevoked\", \"inputs\": [{ \"name\": \"role\", \"type\": \"bytes32\", \"indexed\": true, \"internalType\": \"bytes32\" }, { \"name\": \"account\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"sender\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"Transfer\", \"inputs\": [{ \"name\": \"from\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"to\", \"type\": \"address\", \"indexed\": true, \"internalType\": \"address\" }, { \"name\": \"value\", \"type\": \"uint256\", \"indexed\": false, \"internalType\": \"uint256\" }], \"anonymous\": false },\n  // { \"type\": \"event\", \"name\": \"Unpaused\", \"inputs\": [{ \"name\": \"account\", \"type\": \"address\", \"indexed\": false, \"internalType\": \"address\" }], \"anonymous\": false },\n\n  // Errors (Added a few examples for context)\n  // { \"type\": \"error\", \"name\": \"ERC20InsufficientBalance\", \"inputs\": [{ \"name\": \"sender\", \"type\": \"address\", \"internalType\": \"address\" }, { \"name\": \"balance\", \"type\": \"uint256\", \"internalType\": \"uint256\" }, { \"name\": \"needed\", \"type\": \"uint256\", \"internalType\": \"uint256\" }] },\n  // { \"type\": \"error\", \"name\": \"ERC20InvalidReceiver\", \"inputs\": [{ \"name\": \"receiver\", \"type\": \"address\", \"internalType\": \"address\" }] }\n]\n\n\n\nconst templatePayload = {\n  contractAddress: contractAddress,\n  privateKey: privateKey,\n  abi: JSON.stringify(abi),\n  jsonRpc: jsonRpc\n};\n\nmsg.payload = templatePayload;\nreturn msg;",
         "outputs": 1,
@@ -303,15 +303,15 @@
         "y": 280,
         "wires": [
             [
-                "edaab1ed76e10fd8",
-                "465444f5258e09aa"
+                "8cfe82f9a0ccf5c7",
+                "59bc250b68b8802b"
             ]
         ]
     },
     {
-        "id": "465444f5258e09aa",
+        "id": "59bc250b68b8802b",
         "type": "debug",
-        "z": "29d033f92e97afbf",
+        "z": "997998710caa1c82",
         "name": "contract details ",
         "active": true,
         "tosidebar": true,
